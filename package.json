@@ -4,7 +4,10 @@
   "description": "tool to scan the dependencies of a software project",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "prettier:base": "prettier '**/*.{ts,json,js,md}' --prose-wrap=always",
+    "prettier:check": "yarn run prettier:base --list-different",
+    "prettier:write": "yarn run prettier:base --write"
   },
   "repository": {
     "type": "git",
@@ -12,5 +15,8 @@
   },
   "author": "Lewis Dean",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/s5008913/dependency-scanner#readme"
+  "homepage": "https://bitbucket.org/s5008913/dependency-scanner#readme",
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }
