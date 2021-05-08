@@ -1,0 +1,16 @@
+{
+  "name": "dependency-scanner",
+  "version": "0.1.0",
+  "description": "tool to scan the dependencies of a software project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://lewis-dean@bitbucket.org/s5008913/dependency-scanner.git"
+  },
+  "author": "Lewis Dean",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/s5008913/dependency-scanner#readme"
+}
