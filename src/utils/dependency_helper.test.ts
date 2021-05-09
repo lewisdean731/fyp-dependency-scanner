@@ -60,13 +60,13 @@ describe("isUsingLatestVersion", () => {
 describe("checkDependencies", () => {
   test("should return dependency as IN_DATE when in date", () => {
     const sd:ScannedDependency[] = [scannedDependencies[1]]
-    dependencyHelper.checkDependencies("projName", sd);
+    dependencyHelper.checkDependencies(sd);
     expect(console.log).toHaveBeenCalledWith(expConsoleLog1);
   });
 
   test("should return OUT_OF_DATE if dependency not up to date", () => {
     const sd:ScannedDependency[] = [scannedDependencies[0]]
-    dependencyHelper.checkDependencies("projName", sd);
+    dependencyHelper.checkDependencies(sd);
     expect(console.log).toHaveBeenCalledWith(expConsoleLog2);
   });
 });

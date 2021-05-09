@@ -13,10 +13,8 @@ export function isUsingLatestVersion(dependency: ScannedDependency): boolean {
 
 // Check collated dependencies
 export const checkDependencies = (
-  projectName: String,
   dependencies: ScannedDependency[]
 ) => {
-  console.log(`Results for project '${projectName}'`);
   dependencies.forEach((d) => {
     const bool = isUsingLatestVersion(d);
     if (bool === true) {

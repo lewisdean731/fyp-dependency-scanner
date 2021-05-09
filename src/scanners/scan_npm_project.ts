@@ -55,7 +55,6 @@ const collateDependencies = async (
 };
 
 export default async (
-  projectName: string,
   url: string,
   urlPackageLock: string,
   BITBUCKET_USERNAME: string,
@@ -81,6 +80,6 @@ export default async (
     packageLockDotJson
   );
 
-  dependencyHelper.checkDependencies(projectName, collatedDependencies);
+  dependencyHelper.checkDependencies(collatedDependencies);
 
 };

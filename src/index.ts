@@ -14,7 +14,6 @@ const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
     console.log(`Scanning project: ${projectName}`);
     await wrapPromiseErrors(
       scanNpmProject(
-        projectName,
         packageJsonUrl,
         packageLockDotJsonUrl,
         BITBUCKET_USERNAME,
