@@ -91,6 +91,10 @@ describe("getNextDependencyVersion", () => {
   test("should return the latest dependency version if it is so", () => {
     expect(dependencyHelper.getNextDependencyVersion(dependencyReleases, scannedDependencies[2])).toEqual("2.3.4");
   });
+
+  test("should return null when there are no other releases", () => {
+    expect(dependencyHelper.getNextDependencyVersion({}, scannedDependencies[0])).toEqual("null");
+  });
 });
 
 describe("getDependencyReleaseDate", () => {
