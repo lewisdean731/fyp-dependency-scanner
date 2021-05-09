@@ -88,10 +88,10 @@ export const getDependencyReleaseDate = (
   version: string,
   releases: any
 ): Date => {
-  if (releases[version] !== undefined) {
-    return releases[version];
+  if (releases[version] === undefined) {
+    releases[version] = {date: new Date(0)}
   }
-  return new Date(0);
+  return releases[version];
 };
 
 // Splits version into an array e.g. '2.1.0' => ['2','1','0']
