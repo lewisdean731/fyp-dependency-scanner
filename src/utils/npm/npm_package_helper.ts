@@ -42,7 +42,7 @@ const importFile = async (
 };
 
 function getDependencies(packageJson: PackageJson) {
-  let dependencies: string[];
+  let dependencies: RawDependencies;
   dependencies = {
     ...packageJson.dependencies,
     ...packageJson.devDependencies,

@@ -1,5 +1,5 @@
-type RawDependency = {
-  [name: string]: { verion: string };
+type RawDependencies = {
+  [name: string]: string;
 };
 
 type ScannedDependency = {

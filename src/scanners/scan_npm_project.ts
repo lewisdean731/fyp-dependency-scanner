@@ -6,7 +6,7 @@ import * as dependencyHelper from "../utils/dependency_helper";
 
 // Get current and latest version of dependencies we specify explicitly
 const collateDependencies = async (
-  dependencies: string[],
+  dependencies: RawDependencies,
   packageLockJson: PackageLockJson
 ): Promise<ScannedDependency[]> => {
   let exactDependencyVersions = [];
@@ -73,7 +73,7 @@ export default async (
     BITBUCKET_PASSWORD
   );
   
-  let dependencies = npmPackageHelper.getDependencies(packageDotJson);
+  let dependencies:RawDependencies = npmPackageHelper.getDependencies(packageDotJson);
 
   let collatedDependencies = await collateDependencies(
     dependencies,
