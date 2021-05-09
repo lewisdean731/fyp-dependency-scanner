@@ -32,15 +32,9 @@ const scannedDependencies:ScannedDependency[] = [
   }
 ]
 
-const expConsoleLog1 = 
-"Results for project 'projName'"
-"[IN_DATE] dependency2 is running the latest version: 1.2.3"
-"[IN_DATE] dependency3 is running the latest version: 2.3.4";
+const expConsoleLog1 = "[IN_DATE] dependency2 is running the latest version: 1.2.3"
 
-const expConsoleLog2 = 
-"Results for project 'projName'"
-"[IN_DATE] dependency2 is running the latest version: 1.2.3"
-"[IN_DATE] dependency3 is running the latest version: 1.2.3";
+const expConsoleLog2 = "[OUT_OF_DATE] dependency1 is running version 1.2.3. The next version is 1.3.0 and it has been available for 14 Days. The latest version is 1.3.5."
 
 const dependencyReleases:DependencyReleases = {
   "1.3.0":{ date: new Date('2021-04-05T20:58:03.835Z')},
@@ -64,20 +58,14 @@ describe("isUsingLatestVersion", () => {
 });
 
 describe("checkDependencies", () => {
-  test("should return all dependencies as IN_DATE when in date", () => {
-    const sd:ScannedDependency[] = [
-      scannedDependencies[1], 
-      scannedDependencies[2]   
-    ]
+  test("should return dependency as IN_DATE when in date", () => {
+    const sd:ScannedDependency[] = [scannedDependencies[1]]
     dependencyHelper.checkDependencies("projName", sd);
     expect(console.log).toHaveBeenCalledWith(expConsoleLog1);
   });
 
-  test("should return OUT_OF_DATE for dependencies not up to date", () => {
-    const sd:ScannedDependency[] = [
-      scannedDependencies[0], 
-      scannedDependencies[1]   
-    ]
+  test("should return OUT_OF_DATE if dependency not up to date", () => {
+    const sd:ScannedDependency[] = [scannedDependencies[0]]
     dependencyHelper.checkDependencies("projName", sd);
     expect(console.log).toHaveBeenCalledWith(expConsoleLog2);
   });
