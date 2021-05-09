@@ -51,20 +51,22 @@ describe("importFile", () => {
   });
 
   test("throws an error when the response is bad", () => {
-    const errorMessage = 'Fake Error';
- 
-    mockedAxios.get.mockResolvedValue(() =>
-      Promise.reject(new Error(errorMessage)),
-    );
+    const errorMessage = 'Error: Fake Error';
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
-      "fakeUrl", {"auth": {"password": "password", "username": "username"}}
-    );
+    mockedAxios.get.mockRejectedValueOnce(new Error('Fake Error'));
 
     return npmPackageHelper
       .importFile("fakeUrl", "username", "password")
       .catch(error => expect(error).toEqual(errorMessage));
   });
+
+  test("calls the correct URL", () => {
+    npmPackageHelper.importFile("fakeUrl", "username", "password")
+
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      "fakeUrl", {"auth": {"password": "password", "username": "username"}}
+    );
+  })
 });
 
 describe("getDependencies", () => {

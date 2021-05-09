@@ -37,7 +37,7 @@ const importFile = async (
     });
     return response.data;
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    return new Error(`Error: ${error}`);
   }
 };
 
