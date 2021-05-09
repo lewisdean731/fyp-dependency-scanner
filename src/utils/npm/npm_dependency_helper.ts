@@ -7,7 +7,7 @@ export const getDependencyMetadata = async (name: string): Promise<any> => {
     const response = await Axios.get(url);
     return response.data;
   } catch (error) {
-    throw new Error(`Error: ${error}`);
+    return new Error(`Error: ${error}`);
   }
 };
 
