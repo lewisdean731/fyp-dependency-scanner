@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "tsc",
-    "test": "test",
+    "test": "jest --coverage",
     "prettier:base": "prettier '**/*.{ts,json,js,md}' --prose-wrap=always",
     "prettier:check": "yarn run prettier:base --list-different",
     "prettier:write": "yarn run prettier:base --write"
