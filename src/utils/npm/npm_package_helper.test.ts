@@ -69,7 +69,14 @@ describe("importFile", () => {
 
 describe("getDependencies", () => {
 
-  const expectedDependencies = { dependency1: '^0.1.2', dependency2: '^2.3.4'}
+  const expDependencies = { dependency1: '^0.1.2', dependency2: '^2.3.4'}
+  const expLockDependencies = { 
+    dependency1: {
+      version: '0.1.2'
+    }, 
+    dependency2: {
+      version: '2.3.4'
+  }}
 
   test("should extract dependencies from package.json", () => {
     const packageJson = {
@@ -81,8 +88,27 @@ describe("getDependencies", () => {
           dependency2: "^2.3.4"
         }
       }
-    const dependencies: String[] = npmPackageHelper.getDependencies(packageJson)
-    expect(dependencies).toEqual(expectedDependencies)
+    const dependencies = npmPackageHelper.getDependencies(packageJson)
+    expect(dependencies).toEqual(expDependencies)
+  });
+
+  test("should extract dependencies from package-lock.json", () => {
+    const packageLock = {
+      name: "package-lock",
+      version: "1.0.0",
+      lockfileVersion: 1,
+      requires: true,
+      dependencies: {
+        dependency1: {
+          version: "0.1.2"
+        },
+        dependency2: {
+          version: "2.3.4"
+        }
+      }
+    }
+    const dependencies = npmPackageHelper.getLockDependencies(packageLock)
+    expect(dependencies).toEqual(expLockDependencies)
   });
 
 });
