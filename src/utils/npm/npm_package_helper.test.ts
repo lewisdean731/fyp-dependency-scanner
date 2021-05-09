@@ -1,4 +1,4 @@
-import * as npmPackageHelper from "../../utils/npm/npm_package_helper";
+import * as npmPackageHelper from "./npm_package_helper";
 import axios from "axios";
 
 jest.mock("axios");
