@@ -17,6 +17,15 @@ This README would normally document whatever steps are necessary to get your app
 * How to run tests
 * Deployment instructions
 
+
+```bash
+read -s bitbucket_password
+
+BITBUCKET_USERNAME="$USER" \
+BITBUCKET_PASSWORD="$bitbucket_password" \
+node dist/index.js
+```
+
 ### Contribution guidelines ###
 
 * Writing tests
