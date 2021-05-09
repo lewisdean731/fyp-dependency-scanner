@@ -72,17 +72,6 @@ export const getNextDependencyVersion = (
   return "null"; // Unix epoch
 };
 
-// Returns true / false if queried version exists in vesion list
-export const doesVersionExist = (
-  releases: DependencyReleases,
-  version: string
-): boolean => {
-  if (releases[version] !== undefined) {
-    return true;
-  }
-  return false;
-};
-
 // Returns dependency release date
 export const getDependencyReleaseDate = (
   version: string,
