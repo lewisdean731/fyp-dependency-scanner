@@ -9,20 +9,22 @@ const importFile = async (
   await Axios.get(url, {
     auth: {
       username: BITBUCKET_USERNAME,
-      password: BITBUCKET_PASSWORD
-    }
-  }).then((response) => {
-    return response.data;
-  }).catch((error) => {
-    throw new Error(`Error: ${error}`);
-  });
+      password: BITBUCKET_PASSWORD,
+    },
+  })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw new Error(`Error: ${error}`);
+    });
 };
 
 function getDependencies(packageJson: PackageJson) {
   let dependencies: string[];
   dependencies = {
     ...packageJson.dependencies,
-    ...packageJson.devDependencies
+    ...packageJson.devDependencies,
   };
   return dependencies;
 }
@@ -31,8 +33,4 @@ function getLockDependencies(packageLockJson: PackageLockJson) {
   return packageLockJson.dependencies;
 }
 
-export {
-  importFile,
-  getDependencies,
-  getLockDependencies
-};
+export { importFile, getDependencies, getLockDependencies };
