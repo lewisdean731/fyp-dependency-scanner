@@ -44,6 +44,7 @@ const expConsoleLog2 =
 
 const dependencyReleases:DependencyReleases = {
   "1.3.0":{ date: new Date('2021-04-05T20:58:03.835Z')},
+  "1.3.1-beta1":{ date: new Date('2021-04-05T20:58:03.835Z')},
   "1.3.1":{ date: new Date('2021-04-05T20:58:03.835Z')},
   "1.3.2":{ date: new Date('2021-04-05T20:58:03.835Z')},
   "1.4.0":{ date: new Date('2021-04-05T20:58:03.835Z')},
