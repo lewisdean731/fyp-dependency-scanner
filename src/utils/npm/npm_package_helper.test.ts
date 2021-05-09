@@ -68,8 +68,21 @@ describe("importFile", () => {
 });
 
 describe("getDependencies", () => {
-  test("should extract dependencies from file", () => {
 
+  const expectedDependencies = { dependency1: '^0.1.2', dependency2: '^2.3.4'}
+
+  test("should extract dependencies from package.json", () => {
+    const packageJson = {
+      name: "package",
+        devDependencies: {
+          dependency1: "^0.1.2"
+        },
+        dependencies: {
+          dependency2: "^2.3.4"
+        }
+      }
+    const dependencies: String[] = npmPackageHelper.getDependencies(packageJson)
+    expect(dependencies).toEqual(expectedDependencies)
   });
 
 });
