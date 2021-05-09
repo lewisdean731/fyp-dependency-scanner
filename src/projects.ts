@@ -3,9 +3,9 @@ export const projects: ProjectList = {
     {
       projectName: "dependency-scanner",
       packageJsonUrl:
-        "https://bitbucket.org/s5008913/dependency-scanner/raw/b30366c87838c019e6175ff3daa76623653382f7/package.json",
+        "https://api.bitbucket.org/2.0/repositories/s5008913/api/src/master/package.json",
       packageLockDotJsonUrl:
-        "https://bitbucket.org/s5008913/dependency-scanner/raw/b30366c87838c019e6175ff3daa76623653382f7/package-lock.json",
+        "https://api.bitbucket.org/2.0/repositories/s5008913/api/src/master/package-lock.json",
     },
   ],
 };
