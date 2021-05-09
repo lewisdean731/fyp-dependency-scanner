@@ -1,6 +1,8 @@
 import Axios from "axios";
 
-const importFile = async (
+// Not sure why this implementation doesn't return the data in time yet the 
+// Below implementation does
+/* const importFile = async (
   url: string,
   BITBUCKET_USERNAME: string,
   BITBUCKET_PASSWORD: string
@@ -18,6 +20,25 @@ const importFile = async (
     .catch((error) => {
       throw new Error(`Error: ${error}`);
     });
+}; */
+
+const importFile = async (
+  url: string,
+  BITBUCKET_USERNAME: string,
+  BITBUCKET_PASSWORD: string
+): Promise<any> => {
+  console.log("importing file: " + url);
+  try {
+    const response = await Axios.get(url, {
+      auth: {
+        username: BITBUCKET_USERNAME,
+        password: BITBUCKET_PASSWORD
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error: ${error}`);
+  }
 };
 
 function getDependencies(packageJson: PackageJson) {
