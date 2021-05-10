@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-// Not sure why this implementation doesn't return the data in time yet the 
+// Not sure why this implementation doesn't return the data in time yet the
 // Below implementation does
 /* const importFile = async (
   url: string,
@@ -32,8 +32,8 @@ const importFile = async (
     const response = await Axios.get(url, {
       auth: {
         username: BITBUCKET_USERNAME,
-        password: BITBUCKET_PASSWORD
-      }
+        password: BITBUCKET_PASSWORD,
+      },
     });
     return response.data;
   } catch (error) {

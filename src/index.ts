@@ -1,7 +1,7 @@
 import { projects } from "./projects";
 import { fetchEnvVar } from "./utils/env_helper";
 import wrapPromiseErrors from "./wrap_promise_errors";
-import scanNpmProject from "./scanners/scan_npm_project"
+import scanNpmProject from "./scanners/scan_npm_project";
 const BITBUCKET_USERNAME = fetchEnvVar("BITBUCKET_USERNAME");
 const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
 

@@ -61,19 +61,21 @@ export default async (
   BITBUCKET_PASSWORD: string
 ) => {
   // Get needed files from repository
-  const packageDotJson:PackageJson = await npmPackageHelper.importFile(
+  const packageDotJson: PackageJson = await npmPackageHelper.importFile(
     url,
     BITBUCKET_USERNAME,
     BITBUCKET_PASSWORD
   );
 
-  const packageLock:PackageLockJson = await npmPackageHelper.importFile(
+  const packageLock: PackageLockJson = await npmPackageHelper.importFile(
     urlPackageLock,
     BITBUCKET_USERNAME,
     BITBUCKET_PASSWORD
   );
-  
-  let dependencies:RawDependencies = npmPackageHelper.getDependencies(packageDotJson);
+
+  let dependencies: RawDependencies = npmPackageHelper.getDependencies(
+    packageDotJson
+  );
 
   let collatedDependencies = await collateDependencies(
     dependencies,
@@ -81,5 +83,4 @@ export default async (
   );
 
   dependencyHelper.checkDependencies(collatedDependencies);
-
 };

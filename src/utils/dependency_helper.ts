@@ -12,9 +12,7 @@ export function isUsingLatestVersion(dependency: ScannedDependency): boolean {
 }
 
 // Check collated dependencies
-export const checkDependencies = (
-  dependencies: ScannedDependency[]
-) => {
+export const checkDependencies = (dependencies: ScannedDependency[]) => {
   dependencies.forEach((d) => {
     const bool = isUsingLatestVersion(d);
     if (bool === true) {
@@ -76,7 +74,7 @@ export const getDependencyReleaseDate = (
   releases: any
 ): Date => {
   if (releases[version] === undefined) {
-    releases[version] = {date: new Date(0)}
+    releases[version] = { date: new Date(0) };
   }
   return releases[version];
 };
