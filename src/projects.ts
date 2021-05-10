@@ -14,7 +14,8 @@ export const buildProjectsList = async ():Promise<ProjectList> => {
       console.log(data)
       npmProjectsBuilder.push(data)
     }else {
-      console.log(data)
+      //console.log(data)
+      console.log("Could not add project to projectsList")
     }
   }
   const projects:ProjectList = {
