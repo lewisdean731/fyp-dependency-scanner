@@ -67,7 +67,7 @@ export default async (
     BITBUCKET_PASSWORD
   );
 
-  const packageLockDotJson:PackageLockJson = await npmPackageHelper.importFile(
+  const packageLock:PackageLockJson = await npmPackageHelper.importFile(
     urlPackageLock,
     BITBUCKET_USERNAME,
     BITBUCKET_PASSWORD
@@ -77,7 +77,7 @@ export default async (
 
   let collatedDependencies = await collateDependencies(
     dependencies,
-    packageLockDotJson
+    packageLock
   );
 
   dependencyHelper.checkDependencies(collatedDependencies);

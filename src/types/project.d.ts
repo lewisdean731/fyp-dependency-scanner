@@ -1,7 +1,7 @@
 type NpmProject = {
   projectName: string;
   packageJsonUrl: string;
-  packageLockDotJsonUrl: string;
+  packageLockUrl: string;
 };
 
 type ProjectList = {
