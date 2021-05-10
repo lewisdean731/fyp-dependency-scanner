@@ -68,7 +68,7 @@ under `npmProjects`:
       projectName: "NPM Project Name",
       packageJsonUrl:
         "https://bitbucket.il2management.local/path-to-raw-package-json",
-      packageLockDotJsonUrl:
+      packageLockUrl:
         "https://bitbucket.il2management.local/path-to-raw-package-lock-dot-json"
     }
 ```

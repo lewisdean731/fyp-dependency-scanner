@@ -9,13 +9,13 @@ const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
   // Analyse NPM projects
   for (const [
     ,
-    { projectName, packageJsonUrl, packageLockDotJsonUrl },
+    { projectName, packageJsonUrl, packageLockUrl },
   ] of Object.entries(projects.npmProjects)) {
     console.log(`Scanning project: ${projectName}`);
     await wrapPromiseErrors(
       scanNpmProject(
         packageJsonUrl,
-        packageLockDotJsonUrl,
+        packageLockUrl,
         BITBUCKET_USERNAME,
         BITBUCKET_PASSWORD
       ),
