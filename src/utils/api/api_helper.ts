@@ -11,7 +11,7 @@ export const asyncGetRequest = async (url:string, params?:string[]):Promise<Axio
   })
 }
 
-export const getProject = async (projectId:string):Promise<NpmProject> => {
+export const getProject = async (projectId:string):Promise<{error: string} | NpmProject> => {
 
   return await asyncGetRequest(`${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`)
   .then((response) => {
@@ -22,9 +22,9 @@ export const getProject = async (projectId:string):Promise<NpmProject> => {
         packageLockUrl: response.data.projectType.npm.packageLockUrl
       }
     }
-    return response.data
+    return {error: "No such document"}
   }).catch((error) => {
-    return error
+    throw new Error(error)
   })
 }
 
