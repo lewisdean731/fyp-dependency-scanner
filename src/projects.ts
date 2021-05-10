@@ -1,11 +1,24 @@
-export const projects: ProjectList = {
-  npmProjects: [
-    {
-      projectName: "API",
-      packageJsonUrl:
-        "https://api.bitbucket.org/2.0/repositories/s5008913/api/src/master/package.json",
-      packageLockUrl:
-        "https://api.bitbucket.org/2.0/repositories/s5008913/api/src/master/package-lock.json",
-    },
-  ],
-};
+import apiHelper from "./utils/api/api_helper";
+
+const projectIds: string[] = [
+  "KHQ9LkzFo1miE41bW5aL",
+];
+
+export const buildProjectsList = async ():Promise<ProjectList> => {
+  let npmProjectsBuilder: NpmProject[] = []
+  
+  for (const [ , projectId] of Object.entries(projectIds)){
+    console.log(`Project ID: ${projectId}`);
+    const data:NpmProject|{error: string} = await apiHelper.getProject(projectId)
+    if("projectName" in data) {
+      console.log(data)
+      npmProjectsBuilder.push(data)
+    }else {
+      console.log(data)
+    }
+  }
+  const projects:ProjectList = {
+    npmProjects: npmProjectsBuilder
+  }
+  return projects
+}
