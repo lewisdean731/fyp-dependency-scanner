@@ -11,7 +11,7 @@ const scan = async (projectList: ProjectList) => {
   // Scan NPM projects
   for (const [
     ,
-    { projectName, packageJsonUrl, packageLockUrl },
+    { projectId, projectName, packageJsonUrl, packageLockUrl },
   ] of Object.entries(projectList.npmProjects)) {
     console.log(`Scanning project: ${projectName}`);
     const scannedDependencies: ScannedDependency[] = await wrapPromiseErrors(
@@ -24,7 +24,7 @@ const scan = async (projectList: ProjectList) => {
       `scanNpmProject (${projectName})`
     );
     console.log(`------------------------------------------------------------`);
-    await updateNpmProject(scannedDependencies)
+    await updateNpmProject(projectId, scannedDependencies)
   }
 };
 

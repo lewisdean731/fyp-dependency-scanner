@@ -11,8 +11,12 @@ export const buildProjectsList = async (): Promise<ProjectList> => {
       projectId
     );
     if ("projectName" in data) {
-      console.log(data);
-      npmProjectsBuilder.push(data);
+      const project = {
+        ...data,
+        "projectId": projectId
+      }
+      console.log(project);
+      npmProjectsBuilder.push(project);
     } else {
       //console.log(data)
       console.log("Could not add project to projectsList");
