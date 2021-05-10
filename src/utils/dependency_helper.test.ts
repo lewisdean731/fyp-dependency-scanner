@@ -1,6 +1,6 @@
 import * as dependencyHelper from "./dependency_helper";
 
-console.log = jest.fn();
+const consoleSpy = jest.spyOn(console, 'log').mockImplementation()
 
 const scannedDependencies:ScannedDependency[] = [
   {
@@ -32,20 +32,22 @@ const scannedDependencies:ScannedDependency[] = [
   }
 ]
 
-const expConsoleLog1 = "[IN_DATE] dependency2 is running the latest version: 1.2.3"
-
-const expConsoleLog2 = "[OUT_OF_DATE] dependency1 is running version 1.2.3. The next version is 1.3.0 and it has been available for 14 Days. The latest version is 1.3.5."
-
 const dependencyReleases:DependencyReleases = {
-  "1.3.0":{ date: new Date('2021-04-05T20:58:03.835Z')},
-  "1.3.1-beta1":{ date: new Date('2021-04-05T20:58:03.835Z')},
-  "1.3.1":{ date: new Date('2021-04-05T20:58:03.835Z')},
-  "1.3.2":{ date: new Date('2021-04-05T20:58:03.835Z')},
-  "1.4.0":{ date: new Date('2021-04-05T20:58:03.835Z')},
+  "1.3.0":{ date: new Date('2021-04-25T20:58:03.835Z')},
+  "1.3.1-beta1":{ date: new Date('2021-04-25T20:58:03.835Z')},
+  "1.3.1":{ date: new Date('2021-04-25T20:58:03.835Z')},
+  "1.3.2":{ date: new Date('2021-04-25T20:58:03.835Z')},
+  "1.4.0":{ date: new Date('2021-04-25T20:58:03.835Z')},
 }
 
+const time = Math.round((new Date().getTime() - new Date("2021-04-25T20:58:03.835Z").getTime()) / 8.64e7);
+
+const expConsoleLog1 = "[IN_DATE] dependency2 is running the latest version: 1.2.3"
+
+const expConsoleLog2 = `[OUT_OF_DATE] dependency1 is running version 1.2.3. The next version is 1.3.0 and it has been available for ${time} Days. The latest version is 1.3.5.`
 
 describe("isUsingLatestVersion", () => {
+
   test("should return true when a dependency is the latest version", () => {   
     expect(dependencyHelper
       .isUsingLatestVersion(scannedDependencies[1])).toEqual(true);
@@ -58,6 +60,10 @@ describe("isUsingLatestVersion", () => {
 });
 
 describe("checkDependencies", () => {
+  afterEach(() => {
+    consoleSpy.mockClear();
+  });
+
   test("should return dependency as IN_DATE when in date", () => {
     const sd:ScannedDependency[] = [scannedDependencies[1]]
     dependencyHelper.checkDependencies(sd);
@@ -87,7 +93,7 @@ describe("getNextDependencyVersion", () => {
 
 describe("getDependencyReleaseDate", () => {
   test("should return release date for version", () => {
-    expect(dependencyHelper.getDependencyReleaseDate("1.3.0", dependencyReleases)).toEqual({date: new Date('2021-04-05T20:58:03.835Z')});
+    expect(dependencyHelper.getDependencyReleaseDate("1.3.0", dependencyReleases)).toEqual({date: new Date('2021-04-25T20:58:03.835Z')});
   });
 
   test("should return epoch date if not found", () => {
