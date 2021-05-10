@@ -12,8 +12,8 @@ export const asyncGetRequest = async (
     })
     .catch((error) => {
       if (error.status === 400) {
-        return(error)
-      }else{
+        return error;
+      } else {
         throw new Error(error);
       }
     });
@@ -21,7 +21,7 @@ export const asyncGetRequest = async (
 
 export const getProject = async (
   projectId: string
-): Promise<NpmProject | {error: string}> => {
+): Promise<NpmProject | { error: string }> => {
   return await asyncGetRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`
   )

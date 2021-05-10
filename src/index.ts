@@ -6,7 +6,7 @@ import scanNpmProject from "./scanners/scan_npm_project";
 const BITBUCKET_USERNAME = fetchEnvVar("BITBUCKET_USERNAME");
 const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
 
-const scan = async (projectList:ProjectList) => {
+const scan = async (projectList: ProjectList) => {
   // Scan NPM projects
   for (const [
     ,
@@ -24,13 +24,12 @@ const scan = async (projectList:ProjectList) => {
     );
     console.log(`------------------------------------------------------------`);
   }
-}
+};
 
 (async () => {
-  const projectList:ProjectList = await buildProjectsList()
+  const projectList: ProjectList = await buildProjectsList();
 
   await scan(projectList);
-  
 })().catch((error) => {
   console.error(error);
   process.exit(1);

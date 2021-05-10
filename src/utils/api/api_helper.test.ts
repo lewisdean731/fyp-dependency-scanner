@@ -35,15 +35,15 @@ describe("asyncGetRequest", () => {
   test("returns an error if the request returns a 400", async () => {
     mockedAxios.get.mockRejectedValueOnce({
       status: 400,
-      data: {}
+      data: {},
     });
 
-    await apiHelper
-      .getProject("fakeProjectId")
-      .catch((error) => expect(error).toEqual({
+    await apiHelper.getProject("fakeProjectId").catch((error) =>
+      expect(error).toEqual({
         status: 400,
-        data: {}
-      }));
+        data: {},
+      })
+    );
   });
 
   test("throws an error if the request goes wrong and not a 400", async () => {
@@ -83,13 +83,11 @@ describe("getProject", () => {
   });
 
   test("should return an error when project not found", async () => {
-    mockedAxios.get.mockImplementation(() =>
-      Promise.reject("errMessage")
-    );
+    mockedAxios.get.mockImplementation(() => Promise.reject("errMessage"));
 
-    await apiHelper.getProject("fakeProjectId").then((data) =>
-      expect(data).toEqual(new Error("errMessage"))
-    );
+    await apiHelper
+      .getProject("fakeProjectId")
+      .then((data) => expect(data).toEqual(new Error("errMessage")));
   });
 
   test("throws an error if the request goes wrong", async () => {
