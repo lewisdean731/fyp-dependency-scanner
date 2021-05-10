@@ -59,7 +59,7 @@ export default async (
   urlPackageLock: string,
   BITBUCKET_USERNAME: string,
   BITBUCKET_PASSWORD: string
-) => {
+):Promise<ScannedDependency[]> => {
   // Get needed files from repository
   const packageDotJson: PackageJson = await npmPackageHelper.importFile(
     url,
@@ -83,4 +83,6 @@ export default async (
   );
 
   dependencyHelper.checkDependencies(collatedDependencies);
+
+  return collatedDependencies;
 };
