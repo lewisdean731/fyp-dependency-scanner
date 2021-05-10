@@ -32,7 +32,21 @@ describe("asyncGetRequest", () => {
       .then((response) => expect(response.status).toEqual(401));
   });
 
-  test("throws an error if the request goes wrong", async () => {
+  test("returns an error if the request returns a 400", async () => {
+    mockedAxios.get.mockRejectedValueOnce({
+      status: 400,
+      data: {}
+    });
+
+    await apiHelper
+      .getProject("fakeProjectId")
+      .catch((error) => expect(error).toEqual({
+        status: 400,
+        data: {}
+      }));
+  });
+
+  test("throws an error if the request goes wrong and not a 400", async () => {
     mockedAxios.get.mockRejectedValueOnce("something went wrong");
 
     await apiHelper
@@ -70,16 +84,11 @@ describe("getProject", () => {
 
   test("should return an error when project not found", async () => {
     mockedAxios.get.mockImplementation(() =>
-      Promise.resolve({
-        status: 404,
-        data: { error: "No such document" },
-      })
+      Promise.reject("errMessage")
     );
 
     await apiHelper.getProject("fakeProjectId").then((data) =>
-      expect(data).toEqual({
-        error: "No such document",
-      })
+      expect(data).toEqual(new Error("errMessage"))
     );
   });
 

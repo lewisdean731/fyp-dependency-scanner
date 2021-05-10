@@ -11,25 +11,26 @@ export const asyncGetRequest = async (
       return response;
     })
     .catch((error) => {
-      throw new Error(error);
+      if (error.status === 400) {
+        return(error)
+      }else{
+        throw new Error(error);
+      }
     });
 };
 
 export const getProject = async (
   projectId: string
-): Promise<{ error: string } | NpmProject> => {
+): Promise<NpmProject | {error: string}> => {
   return await asyncGetRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`
   )
     .then((response) => {
-      if (response.status === 200) {
-        return {
-          projectName: response.data["projectName"],
-          packageJsonUrl: response.data.projectType.npm.packageJsonUrl,
-          packageLockUrl: response.data.projectType.npm.packageLockUrl,
-        };
-      }
-      return { error: "No such document" };
+      return {
+        projectName: response.data["projectName"],
+        packageJsonUrl: response.data.projectType.npm.packageJsonUrl,
+        packageLockUrl: response.data.projectType.npm.packageLockUrl,
+      };
     })
     .catch((error) => {
       return error;
