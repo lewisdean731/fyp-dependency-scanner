@@ -5,6 +5,7 @@ jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 process.env.PROJECTS_ENDPOINT = "/api/fake/projects";
+process.env.API_KEY = "apikey123";
 
 describe("asyncGetRequest", () => {
   test("returns a 200 when authorised", async () => {
