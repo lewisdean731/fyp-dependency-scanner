@@ -26,6 +26,14 @@ describe("asyncGetRequest", () => {
       .asyncGetRequest("fakeUrl")
       .then(response => expect(response.status).toEqual(401));
   });
+
+  test("throws an error if the request goes wrong", async () => {
+    mockedAxios.get.mockRejectedValueOnce(("something went wrong"));
+
+    await apiHelper
+      .getProject("fakeProjectId")
+      .catch((error) => expect(error).toEqual("Error: something went wrong"));
+  });
 });
 
 describe("getProject", () => {
@@ -64,6 +72,14 @@ describe("getProject", () => {
       .then((data) => expect(data).toEqual({
         error: "No such document"
       }));
+  });
+
+  test("throws an error if the request goes wrong", async () => {
+    mockedAxios.get.mockRejectedValueOnce(("something went wrong"));
+
+    await apiHelper
+      .getProject("fakeProjectId")
+      .catch((error) => expect(error).toEqual("Error: something went wrong"));
   });
 });
 

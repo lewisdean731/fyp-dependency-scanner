@@ -7,7 +7,7 @@ export const asyncGetRequest = async (url:string, params?:string[]):Promise<Axio
     return response
   })
   .catch((error) => {
-    return error
+    throw new Error (error)
   })
 }
 
@@ -24,7 +24,7 @@ export const getProject = async (projectId:string):Promise<{error: string} | Npm
     }
     return {error: "No such document"}
   }).catch((error) => {
-    throw new Error(error)
+      return error
   })
 }
 
