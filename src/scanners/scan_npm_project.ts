@@ -59,27 +59,30 @@ export default async (
   urlPackageLock: string,
   BITBUCKET_USERNAME: string,
   BITBUCKET_PASSWORD: string
-) => {
+): Promise<ScannedDependency[]> => {
   // Get needed files from repository
-  const packageDotJson:PackageJson = await npmPackageHelper.importFile(
+  const packageDotJson: PackageJson = await npmPackageHelper.importFile(
     url,
     BITBUCKET_USERNAME,
     BITBUCKET_PASSWORD
   );
 
-  const packageLockDotJson:PackageLockJson = await npmPackageHelper.importFile(
+  const packageLock: PackageLockJson = await npmPackageHelper.importFile(
     urlPackageLock,
     BITBUCKET_USERNAME,
     BITBUCKET_PASSWORD
   );
-  
-  let dependencies:RawDependencies = npmPackageHelper.getDependencies(packageDotJson);
+
+  let dependencies: RawDependencies = npmPackageHelper.getDependencies(
+    packageDotJson
+  );
 
   let collatedDependencies = await collateDependencies(
     dependencies,
-    packageLockDotJson
+    packageLock
   );
 
   dependencyHelper.checkDependencies(collatedDependencies);
 
+  return collatedDependencies;
 };
