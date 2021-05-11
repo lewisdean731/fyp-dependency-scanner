@@ -32,6 +32,28 @@ describe("asyncGetRequest", () => {
       .then((response) => expect(response.status).toEqual(401));
   });
 
+  test("returns an error if the request returns a 404", async () => {
+    mockedAxios.get.mockRejectedValueOnce({
+      status: 404,
+      data: {},
+    });
+
+    await apiHelper.getProject("fakeProjectId").catch((error) =>
+      expect(error).toEqual({
+        status: 404,
+        data: {},
+      })
+    );
+  });
+
+  test("throws an error if the request goes wrong and not a 404", async () => {
+    mockedAxios.get.mockRejectedValueOnce("something went wrong");
+
+    await apiHelper
+      .getProject("fakeProjectId")
+      .catch((error) => expect(error).toEqual("Error: something went wrong"));
+  });
+});
   test("returns an error if the request returns a 400", async () => {
     mockedAxios.get.mockRejectedValueOnce({
       status: 400,
