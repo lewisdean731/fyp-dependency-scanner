@@ -29,7 +29,7 @@ export const asyncPostRequest = async (
       return response;
     })
     .catch((error) => {
-      return error;
+      throw new Error(error);
     });
 };
 
@@ -54,17 +54,15 @@ export const getProject = async (
 export const updateProject = async (
   projectId: string,
   scannedDependencies: ScannedDependency[]
-) => {
+): Promise<AxiosResponse> => {
   return await asyncPostRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`,
     { directDependencies: scannedDependencies }
   )
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      return error;
-    });
+  .catch((error) => {
+    return error;
+  });
 };
 
 export default { asyncGetRequest, asyncPostRequest, getProject, updateProject };
+
