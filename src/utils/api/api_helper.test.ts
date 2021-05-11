@@ -8,7 +8,7 @@ process.env.PROJECTS_ENDPOINT = "/api/fake/project";
 process.env.API_KEY = "apikey123";
 
 //is actually ScannedDependency[] but vscode errors
-const scannedDependencies: any[] = [ 
+const scannedDependencies: any[] = [
   {
     name: "dependency1",
     version: "1.2.3",
@@ -17,7 +17,7 @@ const scannedDependencies: any[] = [
     release_date: new Date("2021-04-27T20:58:03.835Z"),
     latest_release_date: new Date("2021-05-10T22:58:18.150Z"),
     next_release_date: new Date("2021-05-10T22:58:18.150Z"),
-  }
+  },
 ];
 
 describe("asyncGetRequest", () => {
@@ -72,7 +72,7 @@ describe("asyncPostRequest", () => {
   test("returns a 200 when authorised", async () => {
     mockedAxios.post.mockImplementation(() =>
       Promise.resolve({
-        status: 200
+        status: 200,
       })
     );
 
@@ -87,7 +87,7 @@ describe("asyncPostRequest", () => {
     );
 
     await apiHelper
-    .asyncPostRequest("fakeUrl", {})
+      .asyncPostRequest("fakeUrl", {})
       .catch((error) => expect(error).toEqual(new Error("401 unauthorised")));
   });
 
@@ -162,7 +162,7 @@ describe("updateProject", () => {
   test("should update a project when given the correct ID", async () => {
     mockedAxios.post.mockImplementation(() =>
       Promise.resolve({
-        status: 200
+        status: 200,
       })
     );
 
@@ -176,11 +176,13 @@ describe("updateProject", () => {
       Promise.reject(new Error("project not found"))
     );
     await apiHelper
-    .updateProject("projectId", scannedDependencies)
-      .catch((error) => expect(error).toEqual({
-        status: 404,
-        data:{error: "project not found"}
-      }));
+      .updateProject("projectId", scannedDependencies)
+      .catch((error) =>
+        expect(error).toEqual({
+          status: 404,
+          data: { error: "project not found" },
+        })
+      );
   });
 });
 

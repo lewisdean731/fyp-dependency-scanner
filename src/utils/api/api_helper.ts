@@ -58,11 +58,9 @@ export const updateProject = async (
   return await asyncPostRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`,
     { directDependencies: scannedDependencies }
-  )
-  .catch((error) => {
+  ).catch((error) => {
     return error;
   });
 };
 
 export default { asyncGetRequest, asyncPostRequest, getProject, updateProject };
-

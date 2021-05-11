@@ -23,9 +23,14 @@ const scan = async (projectList: ProjectList) => {
       ),
       `scanNpmProject (${projectName})`
     );
-    await apiHelper.updateProject(projectId, scannedDependencies)
-    .then(() => { console.log(`Project updated succesfully`); })
-    .catch((e) => { console.log(`Project could not be updated: ${e}`); });
+    await apiHelper
+      .updateProject(projectId, scannedDependencies)
+      .then(() => {
+        console.log(`Project updated succesfully`);
+      })
+      .catch((e) => {
+        console.log(`Project could not be updated: ${e}`);
+      });
     console.log(`------------------------------------------------------------`);
   }
 };
