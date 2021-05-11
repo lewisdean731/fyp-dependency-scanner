@@ -18,8 +18,7 @@ export const buildProjectsList = async (): Promise<ProjectList> => {
       console.log(project);
       npmProjectsBuilder.push(project);
     } else {
-      //console.log(data)
-      console.log("Could not add project to projectsList");
+      console.log(`Could not add project to projectsList: ${data}`);
     }
   }
   const projects: ProjectList = {

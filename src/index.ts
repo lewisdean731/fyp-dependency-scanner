@@ -4,10 +4,16 @@ import wrapPromiseErrors from "./wrap_promise_errors";
 import scanNpmProject from "./scanners/scan_npm_project";
 import apiHelper from "./utils/api/api_helper";
 
-const BITBUCKET_USERNAME = fetchEnvVar("BITBUCKET_USERNAME");
-const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
+const BITBUCKET_USERNAME: string = fetchEnvVar("BITBUCKET_USERNAME");
+const BITBUCKET_PASSWORD: string = fetchEnvVar("BITBUCKET_PASSWORD");
+const RUN_DELAY_SECONDS: number = parseInt(fetchEnvVar("RUN_DELAY_SECONDS"));
 
-const scan = async (projectList: ProjectList) => {
+const delay = (s: number) => {
+  const ms = s * 1000;
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+const scanAndUpdate = async (projectList: ProjectList) => {
   // Scan NPM projects
   for (const [
     ,
@@ -36,9 +42,13 @@ const scan = async (projectList: ProjectList) => {
 };
 
 (async () => {
-  const projectList: ProjectList = await buildProjectsList();
+  while (true) {
+    const projectList: ProjectList = await buildProjectsList();
 
-  await scan(projectList);
+    await scanAndUpdate(projectList);
+
+    await delay(RUN_DELAY_SECONDS);
+  }
 })().catch((error) => {
   console.error(error);
   process.exit(1);
