@@ -23,7 +23,7 @@ const scan = async (projectList: ProjectList) => {
       ),
       `scanNpmProject (${projectName})`
     );
-    await updateNpmProject(projectId, scannedDependencies)
+    await updateNpmProject(projectId, scannedDependencies);
     console.log(`------------------------------------------------------------`);
   }
 };

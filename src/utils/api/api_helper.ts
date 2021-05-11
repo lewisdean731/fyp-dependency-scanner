@@ -23,13 +23,14 @@ export const asyncPostRequest = async (
   url: string,
   data: object
 ): Promise<AxiosResponse> => {
-  return await axios.post(url, data, { params: { apiKey: fetchEnvVar("API_KEY") } })
-  .then((response) => {
-    return response;
-  })
-  .catch((error) => {
-    return error;
-  });
+  return await axios
+    .post(url, data, { params: { apiKey: fetchEnvVar("API_KEY") } })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
 };
 
 export const getProject = async (
@@ -56,12 +57,14 @@ export const updateProject = async (
 ) => {
   return await asyncPostRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`,
-    {directDependencies: scannedDependencies}
-  ).then((response) => {
-    return response
-  }).catch((error) => {
-    return error
-  })
-}
+    { directDependencies: scannedDependencies }
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 
 export default { asyncGetRequest, asyncPostRequest, getProject, updateProject };

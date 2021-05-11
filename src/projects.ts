@@ -13,8 +13,8 @@ export const buildProjectsList = async (): Promise<ProjectList> => {
     if ("projectName" in data) {
       const project = {
         ...data,
-        "projectId": projectId
-      }
+        projectId: projectId,
+      };
       console.log(project);
       npmProjectsBuilder.push(project);
     } else {
