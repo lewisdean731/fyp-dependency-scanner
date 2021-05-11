@@ -2,7 +2,7 @@ import { buildProjectsList } from "./projects";
 import { fetchEnvVar } from "./utils/env_helper";
 import wrapPromiseErrors from "./wrap_promise_errors";
 import scanNpmProject from "./scanners/scan_npm_project";
-import updateNpmProject from "./updaters/update_npm_project";
+import apiHelper from "./utils/api/api_helper";
 
 const BITBUCKET_USERNAME = fetchEnvVar("BITBUCKET_USERNAME");
 const BITBUCKET_PASSWORD = fetchEnvVar("BITBUCKET_PASSWORD");
@@ -23,7 +23,9 @@ const scan = async (projectList: ProjectList) => {
       ),
       `scanNpmProject (${projectName})`
     );
-    await updateNpmProject(projectId, scannedDependencies);
+    await apiHelper.updateProject(projectId, scannedDependencies)
+    .then(() => { console.log(`Project updated succesfully`); })
+    .catch((e) => { console.log(`Project could not be updated: ${e}`); });
     console.log(`------------------------------------------------------------`);
   }
 };
