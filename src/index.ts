@@ -10,7 +10,7 @@ const RUN_DELAY_SECONDS: number = parseInt(fetchEnvVar("RUN_DELAY_SECONDS"));
 
 const delay = (s: number) => {
   const ms = s * 1000;
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 const scanAndUpdate = async (projectList: ProjectList) => {
@@ -47,9 +47,8 @@ const scanAndUpdate = async (projectList: ProjectList) => {
 
     await scanAndUpdate(projectList);
 
-    await delay(RUN_DELAY_SECONDS)
+    await delay(RUN_DELAY_SECONDS);
   }
-
 })().catch((error) => {
   console.error(error);
   process.exit(1);
