@@ -87,3 +87,28 @@ under `npmProjects`:
 Run `npm run compile` after adding a project to compile it to JavaScript.
 </p>
 </details>
+
+## Deployment
+
+### First
+
+You may need to get kubectl set up using the gcloud tool:
+```bash
+gcloud container clusters get-credentials dependency-scanner-cluster-1 
+--zone europe-west2-a --project bu-fyp-s5008913
+```
+
+Run:
+```bash
+scripts/build_and_push_docker_image.sh`
+```
+
+Then:
+```bash
+kubectl apply -f src/resources/deployment.yaml
+```
+
+You can check on the status of pods with:
+```bash
+kubectl describe pods
+```
