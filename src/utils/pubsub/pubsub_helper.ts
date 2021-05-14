@@ -2,50 +2,54 @@
 // https://cloud.google.com/pubsub/docs/pull
 
 import { fetchEnvVar } from "../env_helper"; 
-import { PubSub } from "@google-cloud/pubsub";
+import { v1 } from "@google-cloud/pubsub";
+import { google } from "@google-cloud/pubsub/build/protos/protos";
 
 const subscriptionName:string = fetchEnvVar("PUBSUB_SUBSCRIPTION_ID");
 const maxMessagesPerRun:number = parseInt(fetchEnvVar("PUBSUB_MAX_MESSAGES_PER_RUN"))
-let nAckFlag:boolean = false;
-const timeout:number = 60;
 
-const pubSubClient = new PubSub();
+// Creates a client; cache this for further use.
+const subClient = new v1.SubscriberClient();
 
-// Get messages until timeout or max messages receieved
-function listenForMessages() {
-  const subscription = pubSubClient.subscription(subscriptionName);
+async function pullMessages() {
+  let projectIds:string[] = [];
 
-  // Create an event handler to handle messages
-  let messageCount = 0;
-  const messageHandler = (message:any) => {
-    console.log(`Received message ${message.id}:`);
-    console.log(`\tData: ${message.data}`);
-    console.log(`\tAttributes: ${message.attributes}`);
-    messageCount += 1;
-
-    // "Ack" (acknowledge receipt of) the message
-    if(nAckFlag === false) {
-      message.ack();
-    } else {
-      console.log('Received a message when nAckFlag was set, not ACKing')
-    }
-
-    // Stop once messages pulled reaches desired number. set nAckFlag to
-    // ensure any other messages do not get acked
-    if( messageCount == maxMessagesPerRun) {
-      console.log('Max messages reached - closing subscription')
-      subscription.close(err => console.log(err))
-      nAckFlag = true
-    }
+  // The maximum number of messages returned for this request.
+  // Pub/Sub may return fewer than the number specified.
+  const request = {
+    subscription: subscriptionName,
+    maxMessages: maxMessagesPerRun
   };
 
-  // Listen for new messages until timeout is hit
-  subscription.on('message', messageHandler);
+  // The subscriber pulls a specified number of messages.
+  console.log(`Pulling up to ${maxMessagesPerRun} messages from queue:`)
+  const [response] = await subClient.pull(request);
 
-  setTimeout(() => {
-    subscription.removeListener('message', messageHandler);
-    console.log(`${messageCount} message(s) received.`);
-  }, timeout * 1000);
+  // Process the messages.
+  const ackIds: string[] = [];
+  if(response.receivedMessages) {
+    for (const message of response.receivedMessages) {
+      console.log(`Received message: ${message.message?.attributes?.projectId}`);
+      if(message.ackId && message.message?.attributes?.projectId){
+        projectIds.push(message.message.attributes.projectId)
+        ackIds.push(message.ackId);
+      }
+    }
+  }
+
+  if (ackIds.length !== 0) {
+    // Acknowledge all of the messages. You could also ackknowledge
+    // these individually, but this is more efficient.
+    const ackRequest:google.pubsub.v1.IAcknowledgeRequest = {
+      subscription: subscriptionName,
+      ackIds: ackIds,
+    };
+
+    await subClient.acknowledge(ackRequest);
+  }
+
+  console.log(projectIds)
+  return projectIds
 }
 
-export default listenForMessages();
+export default pullMessages;
