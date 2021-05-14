@@ -20,7 +20,12 @@ read -s bitbucket_password
 
 BITBUCKET_USERNAME="$USER" \
 BITBUCKET_PASSWORD="$bitbucket_password" \
-node dist/src/index.js
+PROJECTS_ENDPOINT="http://localhost:8080/api/project" \
+API_KEY="dependency-scanner.56a1dcc9-ffd5-430f-a6ab-25c8adf6ab0d" \
+PUBSUB_SUBSCRIPTION_ID="projects/bu-fyp-s5008913/subscriptions/project-scan-sub" \
+PUBSUB_MAX_MESSAGES_PER_RUN="5" \
+RUN_DELAY_SECONDS="30" \
+node dist/index.js
 ```
 
 ### Output
@@ -56,6 +61,12 @@ npm run compile
 
 ## Add a new project to analyse
 
+Dependency-scanner now scans any project IDs it pulls from cloud pub/sub messages.
+The topic subscription ID is passed as the environment variable
+`PUBSUB_SUBSCRIPTION_ID="projects/projectid/subscriptions/subscriptionid"`
+
+<details><summary>Deprecated Way</summary>
+<p>
 A list of projects dependency-scanner inspects can be found at
 `src/projects.ts`. To add a new project to be inspected when it runs, add the
 relevant project information.
@@ -72,4 +83,7 @@ under `npmProjects`:
         "https://bitbucket.il2management.local/path-to-raw-package-lock-dot-json"
     }
 ```
+
 Run `npm run compile` after adding a project to compile it to JavaScript.
+</p>
+</details>
