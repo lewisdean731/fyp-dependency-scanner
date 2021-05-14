@@ -1,9 +1,11 @@
 import apiHelper from "./utils/api/api_helper";
+import pullMessages from "./utils/pubsub/pubsub_helper";
 
-const projectIds: string[] = ["KHQ9LkzFo1miE41bW5aL"];
 
 export const buildProjectsList = async (): Promise<ProjectList> => {
   let npmProjectsBuilder: NpmProject[] = [];
+
+  let projectIds:string[] = await pullMessages();
 
   for (const [, projectId] of Object.entries(projectIds)) {
     console.log(`Project ID: ${projectId}`);
