@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependency-scanner
+spec:
+  selector:
+    matchLabels:
+      app: dependency-scanner
+  template:
+    metadata:
+      labels:
+        app: dependency-scanner
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: pubsub-serviceaccount-key
+      containers:
+      - name: dependency-scanner
+        image: eu.gcr.io/bu-fyp-s5008913/dependency-scanner@sha256:4114761eb891a7ac75f729703e39f53641fb3ee9d39945e4783546dea9148af6
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: PROJECTS_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              key: PROJECTS_ENDPOINT
+              name: dependency-scanner-config-1igv
+        - name: BITBUCKET_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              key: BITBUCKET_USERNAME
+              name: dependency-scanner-config-1igv
+        - name: BITBUCKET_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: BITBUCKET_PASSWORD
+              name: dependency-scanner-config-1igv
+        - name: API_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: API_KEY
+              name: dependency-scanner-config-1igv
+        - name: RUN_DELAY_SECONDS
+          valueFrom:
+            configMapKeyRef:
+              key: RUN_DELAY_SECONDS
+              name: dependency-scanner-config-1igv
+        - name: PUBSUB_SUBSCRIPTION_ID
+          valueFrom:
+            configMapKeyRef:
+              key: PUBSUB_SUBSCRIPTION_ID
+              name: dependency-scanner-config-1igv
+        - name: PUBSUB_MAX_MESSAGES_PER_RUN
+          valueFrom:
+            configMapKeyRef:
+              key: PUBSUB_MAX_MESSAGES_PER_RUN
+              name: dependency-scanner-config-1igv
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
