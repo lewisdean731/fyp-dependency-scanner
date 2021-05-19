@@ -57,7 +57,10 @@ export const updateProject = async (
 ): Promise<AxiosResponse> => {
   return await asyncPostRequest(
     `${fetchEnvVar("PROJECTS_ENDPOINT")}/${projectId}`,
-    { directDependencies: scannedDependencies }
+    {
+      directDependencies: scannedDependencies,
+      lastScannedAt: new Date().getTime(),
+    }
   ).catch((error) => {
     return error;
   });
