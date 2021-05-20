@@ -1,3 +1,5 @@
+import { createNotification } from "./api/api_helper";
+
 // Compares current installed version to latest available
 export function isUsingLatestVersion(dependency: ScannedDependency): boolean {
   let currentVersionArray = toVersionIntArray(dependency.version);
@@ -33,6 +35,40 @@ export const checkDependencies = (dependencies: ScannedDependency[]) => {
     }
   });
 };
+
+// Create notifications for dependencies that are > yellow/red thresholds
+export const createNotifications = async (
+  projectId: string,
+  projectName: string,
+  dependencies: ScannedDependency[],
+  yellowWarningPeriod: number,
+  redWarningPeriod: number
+  ): Promise<any> => {
+    const red_days = (redWarningPeriod / 8.64e+7)
+    const yellow_days = (yellowWarningPeriod / 8.64e+7)
+    dependencies.forEach(async (d) => {
+      if(isUsingLatestVersion(d)){ return; }
+      const dateDiff = howOutOfDate(d.next_release_date)
+
+      switch(true){
+        case (dateDiff > redWarningPeriod):
+          await createNotification({
+            projectId: projectId,
+            projectName: projectName,
+            message: `'${d.name}' is more than ${red_days} days out of date`,
+            severity: "red",
+          })
+          break;
+        case (dateDiff > yellowWarningPeriod):
+          await createNotification({
+            projectId: projectId,
+            projectName: projectName,
+            message: `'${d.name}' is more than ${yellow_days} days out of date`,
+            severity: "yellow",
+          })
+      }
+    });
+  };
 
 // Return how long a version has been available for
 export function howOutOfDate(releaseDate: Date | number): number {
