@@ -176,7 +176,7 @@ describe("createNotifications", () => {
       1.296e+9, 
     );
     expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"message": "'dependency4' is more than 10 days out of date", "projectId": "project Id", "projectName": "project Name", "severity": "yellow"} );
+    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependency4", "message": "'dependency4' is more than 10 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "yellow"} );
   });
 
   test("should create a notification when dependency > red period ", async () => {
@@ -191,7 +191,7 @@ describe("createNotifications", () => {
       1.296e+9, 
     );
     expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"message": "'dependency5' is more than 15 days out of date", "projectId": "project Id", "projectName": "project Name", "severity": "red"} );
+    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependency5", "message": "'dependency5' is more than 15 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "red"} );
   });
 
   test("should NOT create a notification when dep. up to date ", async () => {

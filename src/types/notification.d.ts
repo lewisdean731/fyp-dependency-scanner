@@ -3,4 +3,6 @@ type DependencyNotification = {
   projectName: string;
   message: string;
   severity: "info" | "yellow" | "red";
+  nextVersion: string;
+  dependencyName: string;
 }

@@ -57,6 +57,8 @@ export const createNotifications = async (
             projectName: projectName,
             message: `'${d.name}' is more than ${red_days} days out of date`,
             severity: "red",
+            nextVersion: d.next_version,
+            dependencyName: d.name.replace(/[/]/, '') // regexr.com/5tcjs
           })
           break;
         case (dateDiff > yellowWarningPeriod):
@@ -65,6 +67,8 @@ export const createNotifications = async (
             projectName: projectName,
             message: `'${d.name}' is more than ${yellow_days} days out of date`,
             severity: "yellow",
+            nextVersion: d.next_version,
+            dependencyName: d.name.replace(/[/]/, '')
           })
       }
     });
