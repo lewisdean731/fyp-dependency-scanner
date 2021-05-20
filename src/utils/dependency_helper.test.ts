@@ -49,7 +49,7 @@ const scannedDependencies: ScannedDependency[] = [
     next_release_date: new Date("2021-04-05T20:58:03.835Z"),
   },
   {
-    name: "dependency4",
+    name: "dependencyWith@funny/name",
     version: "2.3.4",
     latest_version: "2.3.5",
     next_version: "2.3.5",
@@ -58,7 +58,7 @@ const scannedDependencies: ScannedDependency[] = [
     next_release_date: (new Date().getTime() - 9.504e+8),
   },
   {
-    name: "dependency5",
+    name: "dependencyWith@funny/name2",
     version: "2.3.4",
     latest_version: "2.3.5",
     next_version: "2.3.5",
@@ -176,7 +176,7 @@ describe("createNotifications", () => {
       1.296e+9, 
     );
     expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependency4", "message": "'dependency4' is more than 10 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "yellow"} );
+    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependencyWith@funnyname", "message": "'dependencyWith@funny/name' is more than 10 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "yellow"} );
   });
 
   test("should create a notification when dependency > red period ", async () => {
@@ -191,7 +191,7 @@ describe("createNotifications", () => {
       1.296e+9, 
     );
     expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependency5", "message": "'dependency5' is more than 15 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "red"} );
+    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependencyWith@funnyname2", "message": "'dependencyWith@funny/name2' is more than 15 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "red"} );
   });
 
   test("should NOT create a notification when dep. up to date ", async () => {
