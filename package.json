@@ -1,6 +1,6 @@
 {
   "name": "dependency-scanner",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "tool to scan the dependencies of software projects",
   "main": "index.js",
   "scripts": {
