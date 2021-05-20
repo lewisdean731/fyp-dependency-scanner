@@ -7,7 +7,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 process.env.PROJECTS_ENDPOINT = "/api/fake/project";
 process.env.API_KEY = "apikey123";
 
-//is actually ScannedDependency[] but vscode errors
+// is actually ScannedDependency[] but vscode errors
 const scannedDependencies: any[] = [
   {
     name: "dependency1",
@@ -19,6 +19,14 @@ const scannedDependencies: any[] = [
     next_release_date: new Date("2021-05-10T22:58:18.150Z"),
   },
 ];
+
+// is actually DependencyNotification but vscode errors
+const notificationData: any = {
+  projectId: "1234",
+  projectName: "fake project",
+  message: "fake message",
+  severity: "yellow"
+}
 
 describe("asyncGetRequest", () => {
   test("returns a 200 when authorised", async () => {
@@ -205,8 +213,55 @@ describe("updateProject", () => {
   });
 });
 
-describe("example", () => {
-  test("example", () => {
-    expect(true).toEqual(true);
+describe("createNotification", () => {
+  test("should return a 200 on notification created successfully", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.resolve({ 
+        status: 200,
+        data: {
+          _writeTime: {
+            _seconds: 1621517493,
+            _nanoseconds: 779434000
+          }
+        }
+       })
+    );
+
+    apiHelper.createNotification('api/fakeurl', {data: notificationData})
+    .then((response) => {
+      expect(response.status).toBe(200)
+      expect(response.data).toBe({_writeTime: {
+        _seconds: 1621517493,
+        _nanoseconds: 779434000
+      }})
+    })
+  });
+
+  test("throws an error when notification not created", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.reject({ 
+        status: 500,
+        message: "example error occured"
+       })
+    );
+
+    apiHelper.createNotification('api/fakeurl', {data: notificationData})
+    .catch((error) => {
+      expect(error.response.status).toBe(500)
+      expect(error.response.message).toBe("example error occured")
+    })
+  });
+
+  test("should not create a notification that fails validation", async () => {
+
+    const badNotificationData = {
+      projectId: undefined,
+      projectName: "fake project",
+      message: "fake message",
+      severity: "not a real severity"
+    }
+
+    apiHelper.createNotification('api/fakeurl', {data: badNotificationData})
+    .catch((error) => {expect(error).toBe("")})
   });
 });
