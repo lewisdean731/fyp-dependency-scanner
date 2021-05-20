@@ -22,6 +22,7 @@ jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 process.env.PROJECTS_ENDPOINT = "/api/fake/project";
+process.env.NOTIFICATIONS_ENDPOINT = "/api/fake/notifications";
 process.env.API_KEY = "apikey123";
 
 const scannedDependencies: ScannedDependency[] = [
@@ -260,10 +261,10 @@ describe("createNotification", () => {
        })
     );
 
-    apiHelper.createNotification(notificationData)
+    await apiHelper.createNotification(notificationData)
     .catch((error) => {
-      expect(error.response.status).toBe(500)
-      expect(error.response.message).toBe("example error occured")
+      expect(error.status).toBe(500)
+      expect(error.message).toBe("example error occured")
     })
   });
 });
