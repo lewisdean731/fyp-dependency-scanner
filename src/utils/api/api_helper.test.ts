@@ -153,7 +153,7 @@ describe("asyncPutRequest", () => {
     );
 
     apiHelper.asyncPutRequest('api/fakeurl', {data: 'data'})
-    .catch((error) => expect(error.response.status).toBe(401))
+    .catch((error) => expect(error.status).toBe(401))
   });
 });
 
