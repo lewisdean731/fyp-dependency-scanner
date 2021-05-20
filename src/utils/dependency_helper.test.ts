@@ -18,11 +18,11 @@ interface ScannedDependency {
   latest_release_date: Date | number;
   next_version: string;
   next_release_date: Date | number;
-};
+}
 
 interface DependencyReleases {
   [version: string]: { date: Date | number };
-};
+}
 
 const scannedDependencies: ScannedDependency[] = [
   {
@@ -58,8 +58,8 @@ const scannedDependencies: ScannedDependency[] = [
     latest_version: "2.3.5",
     next_version: "2.3.5",
     release_date: new Date(0),
-    latest_release_date: (new Date().getTime() - 9.504e+8), // 11 days ago
-    next_release_date: (new Date().getTime() - 9.504e+8),
+    latest_release_date: new Date().getTime() - 9.504e8, // 11 days ago
+    next_release_date: new Date().getTime() - 9.504e8,
   },
   {
     name: "dependencyWith@funny/name2",
@@ -67,8 +67,8 @@ const scannedDependencies: ScannedDependency[] = [
     latest_version: "2.3.5",
     next_version: "2.3.5",
     release_date: new Date(0),
-    latest_release_date: (new Date().getTime() - 1.382e+9), // 16 days ago
-    next_release_date: (new Date().getTime() - 1.382e+9),
+    latest_release_date: new Date().getTime() - 1.382e9, // 16 days ago
+    next_release_date: new Date().getTime() - 1.382e9,
   },
 ];
 
@@ -163,78 +163,85 @@ describe("getDependencyReleaseDate", () => {
 });
 
 describe("createNotifications", () => {
-  
   beforeEach(() => {
     apiSpy.mockClear();
   });
 
   test("should create a notification when dependency > yellow period ", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.resolve({ status: 200 })
-    );
+    mockedAxios.put.mockImplementation(() => Promise.resolve({ status: 200 }));
     await dependencyHelper.createNotifications(
-      "project Id", 
-      "project Name", 
+      "project Id",
+      "project Name",
       [scannedDependencies[3]],
-      8.64e+8, 
-      1.296e+9, 
+      8.64e8,
+      1.296e9
     );
-    expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependencyWith@funnyname", "message": "'dependencyWith@funny/name' is more than 10 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "yellow"} );
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(apiSpy).toHaveBeenCalledWith({
+      dependencyName: "dependencyWith@funnyname",
+      message: "'dependencyWith@funny/name' is more than 10 days out of date",
+      nextVersion: "2.3.5",
+      projectId: "project Id",
+      projectName: "project Name",
+      severity: "yellow",
+    });
   });
 
   test("should create a notification when dependency > red period ", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.resolve({ status: 200 })
-    );
+    mockedAxios.put.mockImplementation(() => Promise.resolve({ status: 200 }));
     await dependencyHelper.createNotifications(
-      "project Id", 
-      "project Name", 
+      "project Id",
+      "project Name",
       [scannedDependencies[4]],
-      8.64e+8, 
-      1.296e+9, 
+      8.64e8,
+      1.296e9
     );
-    expect(apiSpy).toHaveBeenCalledTimes(1)
-    expect(apiSpy).toHaveBeenCalledWith( {"dependencyName": "dependencyWith@funnyname2", "message": "'dependencyWith@funny/name2' is more than 15 days out of date",  "nextVersion": "2.3.5", "projectId": "project Id", "projectName": "project Name", "severity": "red"} );
+    expect(apiSpy).toHaveBeenCalledTimes(1);
+    expect(apiSpy).toHaveBeenCalledWith({
+      dependencyName: "dependencyWith@funnyname2",
+      message: "'dependencyWith@funny/name2' is more than 15 days out of date",
+      nextVersion: "2.3.5",
+      projectId: "project Id",
+      projectName: "project Name",
+      severity: "red",
+    });
   });
 
   test("should NOT create a notification when dep. up to date ", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.resolve({ status: 200 })
-    );
+    mockedAxios.put.mockImplementation(() => Promise.resolve({ status: 200 }));
     await dependencyHelper.createNotifications(
-      "project Id", 
-      "project Name", 
+      "project Id",
+      "project Name",
       [scannedDependencies[2]],
-      8.64e+8, 
-      1.296e+9, 
+      8.64e8,
+      1.296e9
     );
-    expect(apiSpy).toHaveBeenCalledTimes(0)
+    expect(apiSpy).toHaveBeenCalledTimes(0);
   });
 
   test("should throw error if cannot create yellow notification ", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.reject({ status: 500 })
-    );
-    await dependencyHelper.createNotifications(
-      "project Id", 
-      "project Name", 
-      [scannedDependencies[3]],
-      8.64e+8, 
-      1.296e+9, 
-    ).catch((error: any) => expect(error).toBe(""))
+    mockedAxios.put.mockImplementation(() => Promise.reject({ status: 500 }));
+    await dependencyHelper
+      .createNotifications(
+        "project Id",
+        "project Name",
+        [scannedDependencies[3]],
+        8.64e8,
+        1.296e9
+      )
+      .catch((error: any) => expect(error).toBe(""));
   });
 
   test("should throw error if cannot create red notification ", async () => {
-    mockedAxios.put.mockImplementation(() =>
-    Promise.reject({ status: 500 })
-    );
-    await dependencyHelper.createNotifications(
-      "project Id", 
-      "project Name", 
-      [scannedDependencies[3]],
-      8.64e+8, 
-      1.296e+9, 
-    ).catch((error: any) => expect(error).toBe(""))
+    mockedAxios.put.mockImplementation(() => Promise.reject({ status: 500 }));
+    await dependencyHelper
+      .createNotifications(
+        "project Id",
+        "project Name",
+        [scannedDependencies[3]],
+        8.64e8,
+        1.296e9
+      )
+      .catch((error: any) => expect(error).toBe(""));
   });
 });

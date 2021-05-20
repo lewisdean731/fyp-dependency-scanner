@@ -16,7 +16,7 @@ interface ScannedDependency {
   latest_release_date: Date | number;
   next_version: string;
   next_release_date: Date | number;
-};
+}
 
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -41,8 +41,8 @@ const notificationData: DependencyNotification = {
   projectId: "1234",
   projectName: "fake project",
   message: "fake message",
-  severity: "yellow"
-}
+  severity: "yellow",
+};
 
 describe("asyncGetRequest", () => {
   test("returns a 200 when authorised", async () => {
@@ -140,20 +140,18 @@ describe("asyncPostRequest", () => {
 
 describe("asyncPutRequest", () => {
   test("should return a 200 when authorised and data OK", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.resolve({ status: 200 })
-    );
+    mockedAxios.put.mockImplementation(() => Promise.resolve({ status: 200 }));
 
-    apiHelper.asyncPutRequest('api/fakeurl', {data: 'data'})
-    .then((response) => expect(response.status).toBe(200))
+    apiHelper
+      .asyncPutRequest("api/fakeurl", { data: "data" })
+      .then((response) => expect(response.status).toBe(200));
   });
   test("should throw a 401 when unauthorised / no auth given", async () => {
-    mockedAxios.put.mockImplementation(() =>
-      Promise.reject({ status: 401 })
-    );
+    mockedAxios.put.mockImplementation(() => Promise.reject({ status: 401 }));
 
-    apiHelper.asyncPutRequest('api/fakeurl', {data: 'data'})
-    .catch((error) => expect(error.status).toBe(401))
+    apiHelper
+      .asyncPutRequest("api/fakeurl", { data: "data" })
+      .catch((error) => expect(error.status).toBe(401));
   });
 });
 
@@ -232,27 +230,27 @@ describe("updateProject", () => {
 describe("createNotification", () => {
   test("should return a 200 on notification created successfully", async () => {
     mockedAxios.put.mockImplementation(() =>
-      Promise.resolve({ 
+      Promise.resolve({
         status: 200,
-       })
+      })
     );
 
-    await apiHelper.createNotification(notificationData)
-    .then((response) => expect(response.status).toBe(200))
+    await apiHelper
+      .createNotification(notificationData)
+      .then((response) => expect(response.status).toBe(200));
   });
 
   test("throws an error when notification not created", async () => {
     mockedAxios.put.mockImplementation(() =>
-      Promise.reject({ 
+      Promise.reject({
         status: 500,
-        message: "example error occured"
-       })
+        message: "example error occured",
+      })
     );
 
-    await apiHelper.createNotification(notificationData)
-    .catch((error) => {
-      expect(error.status).toBe(500)
-      expect(error.message).toBe("example error occured")
-    })
+    await apiHelper.createNotification(notificationData).catch((error) => {
+      expect(error.status).toBe(500);
+      expect(error.message).toBe("example error occured");
+    });
   });
 });

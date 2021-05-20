@@ -87,19 +87,21 @@ export const createNotification = async (
 ): Promise<AxiosResponse> => {
   return await asyncPutRequest(
     `${fetchEnvVar("NOTIFICATIONS_ENDPOINT")}/create`,
-    notificationData,
-  ).then((response) => {
-    return response;
-  }).catch((error) => {
-    throw error;
-  });
+    notificationData
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
-export default { 
-  asyncGetRequest, 
-  asyncPostRequest, 
-  asyncPutRequest, 
-  getProject, 
+export default {
+  asyncGetRequest,
+  asyncPostRequest,
+  asyncPutRequest,
+  getProject,
   updateProject,
-  createNotification
+  createNotification,
 };

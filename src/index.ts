@@ -18,13 +18,14 @@ const scanAndUpdate = async (projectList: ProjectList) => {
   // Scan NPM projects
   for (const [
     ,
-    { 
-      projectId, 
-      projectName, 
-      packageJsonUrl, 
-      packageLockUrl, 
-      yellowWarningPeriod, 
-      redWarningPeriod },
+    {
+      projectId,
+      projectName,
+      packageJsonUrl,
+      packageLockUrl,
+      yellowWarningPeriod,
+      redWarningPeriod,
+    },
   ] of Object.entries(projectList.npmProjects)) {
     console.log(`Scanning project: ${projectName}`);
     const scannedDependencies: ScannedDependency[] = await wrapPromiseErrors(
@@ -44,12 +45,12 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       yellowWarningPeriod,
       redWarningPeriod
     )
-    .then(() => {
-      console.log(`Notification(s) created succesfully`);
-    })
-    .catch((e) => {
-      console.log(`Notification(s) could not be created: ${e}`);
-    });
+      .then(() => {
+        console.log(`Notification(s) created succesfully`);
+      })
+      .catch((e) => {
+        console.log(`Notification(s) could not be created: ${e}`);
+      });
 
     await apiHelper
       .updateProject(projectId, scannedDependencies)

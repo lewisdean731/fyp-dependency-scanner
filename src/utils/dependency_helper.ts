@@ -43,36 +43,38 @@ export const createNotifications = async (
   dependencies: ScannedDependency[],
   yellowWarningPeriod: number,
   redWarningPeriod: number
-  ): Promise<any> => {
-    const red_days = (redWarningPeriod / 8.64e+7)
-    const yellow_days = (yellowWarningPeriod / 8.64e+7)
-    dependencies.forEach(async (d) => {
-      if(isUsingLatestVersion(d)){ return; }
-      const dateDiff = howOutOfDate(d.next_release_date)
+): Promise<any> => {
+  const red_days = redWarningPeriod / 8.64e7;
+  const yellow_days = yellowWarningPeriod / 8.64e7;
+  dependencies.forEach(async (d) => {
+    if (isUsingLatestVersion(d)) {
+      return;
+    }
+    const dateDiff = howOutOfDate(d.next_release_date);
 
-      switch(true){
-        case (dateDiff > redWarningPeriod):
-          await createNotification({
-            projectId: projectId,
-            projectName: projectName,
-            message: `'${d.name}' is more than ${red_days} days out of date`,
-            severity: "red",
-            nextVersion: d.next_version,
-            dependencyName: d.name.replace(/[/]/, '') // regexr.com/5tcjs
-          })
-          break;
-        case (dateDiff > yellowWarningPeriod):
-          await createNotification({
-            projectId: projectId,
-            projectName: projectName,
-            message: `'${d.name}' is more than ${yellow_days} days out of date`,
-            severity: "yellow",
-            nextVersion: d.next_version,
-            dependencyName: d.name.replace(/[/]/, '')
-          })
-      }
-    });
-  };
+    switch (true) {
+      case dateDiff > redWarningPeriod:
+        await createNotification({
+          projectId: projectId,
+          projectName: projectName,
+          message: `'${d.name}' is more than ${red_days} days out of date`,
+          severity: "red",
+          nextVersion: d.next_version,
+          dependencyName: d.name.replace(/[/]/, ""), // regexr.com/5tcjs
+        });
+        break;
+      case dateDiff > yellowWarningPeriod:
+        await createNotification({
+          projectId: projectId,
+          projectName: projectName,
+          message: `'${d.name}' is more than ${yellow_days} days out of date`,
+          severity: "yellow",
+          nextVersion: d.next_version,
+          dependencyName: d.name.replace(/[/]/, ""),
+        });
+    }
+  });
+};
 
 // Return how long a version has been available for
 export function howOutOfDate(releaseDate: Date | number): number {

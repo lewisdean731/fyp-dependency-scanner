@@ -5,4 +5,4 @@ type DependencyNotification = {
   severity: "info" | "yellow" | "red";
   nextVersion: string;
   dependencyName: string;
-}
+};
