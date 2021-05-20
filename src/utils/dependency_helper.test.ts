@@ -20,6 +20,10 @@ interface ScannedDependency {
   next_release_date: Date | number;
 };
 
+interface DependencyReleases {
+  [version: string]: { date: Date | number };
+};
+
 const scannedDependencies: ScannedDependency[] = [
   {
     name: "dependency1",
