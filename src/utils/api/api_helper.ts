@@ -80,10 +80,24 @@ export const updateProject = async (
   });
 };
 
+export const createNotification = async (
+  notificationData: DependencyNotification
+): Promise<AxiosResponse> => {
+  return await asyncPutRequest(
+    `${fetchEnvVar("NOTIFICATIONS_ENDPOINT")}/create`,
+    notificationData,
+  ).then((response) => {
+    return response.data;
+  }).catch((error) => {
+    throw error;
+  });
+};
+
 export default { 
   asyncGetRequest, 
   asyncPostRequest, 
   asyncPutRequest, 
   getProject, 
-  updateProject 
+  updateProject,
+  createNotification
 };
