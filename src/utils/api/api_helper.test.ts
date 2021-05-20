@@ -242,7 +242,7 @@ describe("createNotification", () => {
        })
     );
 
-    apiHelper.createNotification('api/fakeurl', {data: notificationData})
+    apiHelper.createNotification(notificationData)
     .then((response) => {
       expect(response.status).toBe(200)
       expect(response.data).toBe({_writeTime: {
@@ -260,23 +260,10 @@ describe("createNotification", () => {
        })
     );
 
-    apiHelper.createNotification('api/fakeurl', {data: notificationData})
+    apiHelper.createNotification(notificationData)
     .catch((error) => {
       expect(error.response.status).toBe(500)
       expect(error.response.message).toBe("example error occured")
     })
-  });
-
-  test("should not create a notification that fails validation", async () => {
-
-    const badNotificationData = {
-      projectId: undefined,
-      projectName: "fake project",
-      message: "fake message",
-      severity: "not a real severity"
-    }
-
-    apiHelper.createNotification('api/fakeurl', {data: badNotificationData})
-    .catch((error) => {expect(error).toBe("")})
   });
 });
