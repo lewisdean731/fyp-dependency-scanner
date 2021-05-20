@@ -3,6 +3,7 @@ import { fetchEnvVar } from "./utils/env_helper";
 import wrapPromiseErrors from "./wrap_promise_errors";
 import scanNpmProject from "./scanners/scan_npm_project";
 import apiHelper from "./utils/api/api_helper";
+import { createNotifications } from "./utils/dependency_helper";
 
 const BITBUCKET_USERNAME: string = fetchEnvVar("BITBUCKET_USERNAME");
 const BITBUCKET_PASSWORD: string = fetchEnvVar("BITBUCKET_PASSWORD");
@@ -17,7 +18,13 @@ const scanAndUpdate = async (projectList: ProjectList) => {
   // Scan NPM projects
   for (const [
     ,
-    { projectId, projectName, packageJsonUrl, packageLockUrl },
+    { 
+      projectId, 
+      projectName, 
+      packageJsonUrl, 
+      packageLockUrl, 
+      yellowWarningPeriod, 
+      redWarningPeriod },
   ] of Object.entries(projectList.npmProjects)) {
     console.log(`Scanning project: ${projectName}`);
     const scannedDependencies: ScannedDependency[] = await wrapPromiseErrors(
@@ -29,6 +36,14 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       ),
       `scanNpmProject (${projectName})`
     );
+    await createNotifications(
+      projectId,
+      projectName,
+      scannedDependencies,
+      yellowWarningPeriod,
+      redWarningPeriod
+    )
+
     await apiHelper
       .updateProject(projectId, scannedDependencies)
       .then(() => {
