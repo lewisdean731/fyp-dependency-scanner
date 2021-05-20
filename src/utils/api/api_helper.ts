@@ -33,6 +33,20 @@ export const asyncPostRequest = async (
     });
 };
 
+export const asyncPutRequest = async (
+  url: string,
+  data: object
+): Promise<AxiosResponse> => {
+  return await axios
+    .put(url, data, { params: { apiKey: fetchEnvVar("API_KEY") } })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const getProject = async (
   projectId: string
 ): Promise<NpmProject | { error: string }> => {
@@ -66,4 +80,10 @@ export const updateProject = async (
   });
 };
 
-export default { asyncGetRequest, asyncPostRequest, getProject, updateProject };
+export default { 
+  asyncGetRequest, 
+  asyncPostRequest, 
+  asyncPutRequest, 
+  getProject, 
+  updateProject 
+};
