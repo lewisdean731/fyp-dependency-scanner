@@ -114,6 +114,25 @@ describe("asyncPostRequest", () => {
   });
 });
 
+describe("asyncPutRequest", () => {
+  test("should return a 200 when authorised and data OK", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.resolve({ status: 200 })
+    );
+
+    apiHelper.asyncPutRequest('api/fakeurl', {data: 'data'})
+    .then((response) => expect(response.status).toBe(200))
+  });
+  test("should throw a 401 when unauthorised / no auth given", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.reject({ status: 401 })
+    );
+
+    apiHelper.asyncPutRequest('api/fakeurl', {data: 'data'})
+    .catch((error) => expect(error.response.status).toBe(401))
+  });
+});
+
 describe("getProject", () => {
   test("should return project details when given the correct ID", async () => {
     mockedAxios.get.mockImplementation(() =>
