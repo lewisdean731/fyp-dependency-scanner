@@ -36,6 +36,7 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       ),
       `scanNpmProject (${projectName})`
     );
+
     await createNotifications(
       projectId,
       projectName,
@@ -43,6 +44,12 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       yellowWarningPeriod,
       redWarningPeriod
     )
+    .then(() => {
+      console.log(`Notification(s) created succesfully`);
+    })
+    .catch((e) => {
+      console.log(`Notification(s) could not be created: ${e}`);
+    });
 
     await apiHelper
       .updateProject(projectId, scannedDependencies)
