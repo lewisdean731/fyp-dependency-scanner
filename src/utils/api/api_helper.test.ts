@@ -1,14 +1,30 @@
 import apiHelper from "./api_helper";
 import axios from "axios";
 
+// *.test.ts files do not like .d.ts files (investigate alternative)
+interface DependencyNotification {
+  projectId: string;
+  projectName: string;
+  message: string;
+  severity: "info" | "yellow" | "red";
+}
+interface ScannedDependency {
+  name: string;
+  version: string;
+  release_date: Date;
+  latest_version: string;
+  latest_release_date: Date;
+  next_version: string;
+  next_release_date: Date;
+};
+
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 process.env.PROJECTS_ENDPOINT = "/api/fake/project";
 process.env.API_KEY = "apikey123";
 
-// is actually ScannedDependency[] but vscode errors
-const scannedDependencies: any[] = [
+const scannedDependencies: ScannedDependency[] = [
   {
     name: "dependency1",
     version: "1.2.3",
@@ -20,8 +36,7 @@ const scannedDependencies: any[] = [
   },
 ];
 
-// is actually DependencyNotification but vscode errors
-const notificationData: any = {
+const notificationData: DependencyNotification = {
   projectId: "1234",
   projectName: "fake project",
   message: "fake message",
