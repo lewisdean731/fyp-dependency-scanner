@@ -1,4 +1,4 @@
-type Notification = {
+type DependencyNotification = {
   projectId: string;
   projectName: string;
   message: string;
