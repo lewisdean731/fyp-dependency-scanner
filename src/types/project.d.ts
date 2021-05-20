@@ -3,6 +3,8 @@ type NpmProject = {
   projectName: string;
   packageJsonUrl: string;
   packageLockUrl: string;
+  yellowWarningPeriod: number;
+  redWarningPeriod: number;
 };
 
 type ProjectList = {
