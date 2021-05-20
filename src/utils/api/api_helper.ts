@@ -87,7 +87,7 @@ export const createNotification = async (
     `${fetchEnvVar("NOTIFICATIONS_ENDPOINT")}/create`,
     notificationData,
   ).then((response) => {
-    return response.data;
+    return response;
   }).catch((error) => {
     throw error;
   });

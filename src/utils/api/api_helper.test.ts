@@ -234,23 +234,11 @@ describe("createNotification", () => {
     mockedAxios.put.mockImplementation(() =>
       Promise.resolve({ 
         status: 200,
-        data: {
-          _writeTime: {
-            _seconds: 1621517493,
-            _nanoseconds: 779434000
-          }
-        }
        })
     );
 
-    apiHelper.createNotification(notificationData)
-    .then((response) => {
-      expect(response.status).toBe(200)
-      expect(response.data).toBe({_writeTime: {
-        _seconds: 1621517493,
-        _nanoseconds: 779434000
-      }})
-    })
+    await apiHelper.createNotification(notificationData)
+    .then((response) => expect(response.status).toBe(200))
   });
 
   test("throws an error when notification not created", async () => {
