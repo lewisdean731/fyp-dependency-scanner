@@ -1,14 +1,31 @@
 import apiHelper from "./api_helper";
 import axios from "axios";
 
+// *.test.ts files do not like .d.ts files (investigate alternative)
+interface DependencyNotification {
+  projectId: string;
+  projectName: string;
+  message: string;
+  severity: "info" | "yellow" | "red";
+}
+interface ScannedDependency {
+  name: string;
+  version: string;
+  release_date: Date | number;
+  latest_version: string;
+  latest_release_date: Date | number;
+  next_version: string;
+  next_release_date: Date | number;
+}
+
 jest.mock("axios");
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 process.env.PROJECTS_ENDPOINT = "/api/fake/project";
+process.env.NOTIFICATIONS_ENDPOINT = "/api/fake/notifications";
 process.env.API_KEY = "apikey123";
 
-//is actually ScannedDependency[] but vscode errors
-const scannedDependencies: any[] = [
+const scannedDependencies: ScannedDependency[] = [
   {
     name: "dependency1",
     version: "1.2.3",
@@ -19,6 +36,13 @@ const scannedDependencies: any[] = [
     next_release_date: new Date("2021-05-10T22:58:18.150Z"),
   },
 ];
+
+const notificationData: DependencyNotification = {
+  projectId: "1234",
+  projectName: "fake project",
+  message: "fake message",
+  severity: "yellow",
+};
 
 describe("asyncGetRequest", () => {
   test("returns a 200 when authorised", async () => {
@@ -114,6 +138,23 @@ describe("asyncPostRequest", () => {
   });
 });
 
+describe("asyncPutRequest", () => {
+  test("should return a 200 when authorised and data OK", async () => {
+    mockedAxios.put.mockImplementation(() => Promise.resolve({ status: 200 }));
+
+    apiHelper
+      .asyncPutRequest("api/fakeurl", { data: "data" })
+      .then((response) => expect(response.status).toBe(200));
+  });
+  test("should throw a 401 when unauthorised / no auth given", async () => {
+    mockedAxios.put.mockImplementation(() => Promise.reject({ status: 401 }));
+
+    apiHelper
+      .asyncPutRequest("api/fakeurl", { data: "data" })
+      .catch((error) => expect(error.status).toBe(401));
+  });
+});
+
 describe("getProject", () => {
   test("should return project details when given the correct ID", async () => {
     mockedAxios.get.mockImplementation(() =>
@@ -186,8 +227,30 @@ describe("updateProject", () => {
   });
 });
 
-describe("example", () => {
-  test("example", () => {
-    expect(true).toEqual(true);
+describe("createNotification", () => {
+  test("should return a 200 on notification created successfully", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+      })
+    );
+
+    await apiHelper
+      .createNotification(notificationData)
+      .then((response) => expect(response.status).toBe(200));
+  });
+
+  test("throws an error when notification not created", async () => {
+    mockedAxios.put.mockImplementation(() =>
+      Promise.reject({
+        status: 500,
+        message: "example error occured",
+      })
+    );
+
+    await apiHelper.createNotification(notificationData).catch((error) => {
+      expect(error.status).toBe(500);
+      expect(error.message).toBe("example error occured");
+    });
   });
 });

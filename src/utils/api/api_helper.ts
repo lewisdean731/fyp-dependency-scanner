@@ -33,6 +33,20 @@ export const asyncPostRequest = async (
     });
 };
 
+export const asyncPutRequest = async (
+  url: string,
+  data: object
+): Promise<AxiosResponse> => {
+  return await axios
+    .put(url, data, { params: { apiKey: fetchEnvVar("API_KEY") } })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const getProject = async (
   projectId: string
 ): Promise<NpmProject | { error: string }> => {
@@ -44,6 +58,8 @@ export const getProject = async (
         projectName: response.data["projectName"],
         packageJsonUrl: response.data.projectType.npm.packageJsonUrl,
         packageLockUrl: response.data.projectType.npm.packageLockUrl,
+        yellowWarningPeriod: response.data.yellowWarningPeriod,
+        redWarningPeriod: response.data.redWarningPeriod,
       };
     })
     .catch((error) => {
@@ -66,4 +82,26 @@ export const updateProject = async (
   });
 };
 
-export default { asyncGetRequest, asyncPostRequest, getProject, updateProject };
+export const createNotification = async (
+  notificationData: DependencyNotification
+): Promise<AxiosResponse> => {
+  return await asyncPutRequest(
+    `${fetchEnvVar("NOTIFICATIONS_ENDPOINT")}/create`,
+    notificationData
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export default {
+  asyncGetRequest,
+  asyncPostRequest,
+  asyncPutRequest,
+  getProject,
+  updateProject,
+  createNotification,
+};
