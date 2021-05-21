@@ -17,7 +17,7 @@ spec:
           secretName: pubsub-serviceaccount-key
       containers:
       - name: dependency-scanner
-        image: eu.gcr.io/bu-fyp-s5008913/dependency-scanner@sha256:4114761eb891a7ac75f729703e39f53641fb3ee9d39945e4783546dea9148af6
+        image: eu.gcr.io/bu-fyp-s5008913/dependency-scanner@sha256:bf577b3f031cc56c2d17abcb216a35070c1cd91cf2127bb033f7c82d96780b4e
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
@@ -26,6 +26,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: PROJECTS_ENDPOINT
+              name: dependency-scanner-config-1igv
+        - name: NOTIFICATIONS_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              key: NOTIFICATIONS_ENDPOINT
               name: dependency-scanner-config-1igv
         - name: BITBUCKET_USERNAME
           valueFrom:
