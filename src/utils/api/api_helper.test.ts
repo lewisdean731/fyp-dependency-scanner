@@ -7,6 +7,8 @@ interface DependencyNotification {
   projectName: string;
   message: string;
   severity: "info" | "yellow" | "red";
+  nextVersion: string;
+  dependencyName: string;
 }
 interface ScannedDependency {
   name: string;
@@ -42,6 +44,8 @@ const notificationData: DependencyNotification = {
   projectName: "fake project",
   message: "fake message",
   severity: "yellow",
+  nextVersion: "3.4.5",
+  dependencyName: "fakeName",
 };
 
 describe("asyncGetRequest", () => {

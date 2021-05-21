@@ -4,9 +4,10 @@ import wrapPromiseErrors from "./wrap_promise_errors";
 import scanNpmProject from "./scanners/scan_npm_project";
 import apiHelper from "./utils/api/api_helper";
 import { createNotifications } from "./utils/dependency_helper";
+import { decrypt } from "./utils/decrypt/decrypt_helper";
 
-const BITBUCKET_USERNAME: string = fetchEnvVar("BITBUCKET_USERNAME");
-const BITBUCKET_PASSWORD: string = fetchEnvVar("BITBUCKET_PASSWORD");
+// const BITBUCKET_USERNAME: string = fetchEnvVar("BITBUCKET_USERNAME");
+// const BITBUCKET_PASSWORD: string = fetchEnvVar("BITBUCKET_PASSWORD");
 const RUN_DELAY_SECONDS: number = parseInt(fetchEnvVar("RUN_DELAY_SECONDS"));
 
 const delay = (s: number) => {
@@ -25,6 +26,8 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       packageLockUrl,
       yellowWarningPeriod,
       redWarningPeriod,
+      authUsername,
+      authPassword,
     },
   ] of Object.entries(projectList.npmProjects)) {
     console.log(`Scanning project: ${projectName}`);
@@ -32,8 +35,8 @@ const scanAndUpdate = async (projectList: ProjectList) => {
       scanNpmProject(
         packageJsonUrl,
         packageLockUrl,
-        BITBUCKET_USERNAME,
-        BITBUCKET_PASSWORD
+        decrypt(authUsername), // BITBUCKET_USERNAME,
+        decrypt(authPassword) // BITBUCKET_PASSWORD
       ),
       `scanNpmProject (${projectName})`
     );

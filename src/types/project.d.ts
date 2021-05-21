@@ -5,6 +5,8 @@ type NpmProject = {
   packageLockUrl: string;
   yellowWarningPeriod: number;
   redWarningPeriod: number;
+  authUsername: string;
+  authPassword: string;
 };
 
 type ProjectList = {
