@@ -60,6 +60,8 @@ export const getProject = async (
         packageLockUrl: response.data.projectType.npm.packageLockUrl,
         yellowWarningPeriod: response.data.yellowWarningPeriod,
         redWarningPeriod: response.data.redWarningPeriod,
+        authUsername: response.data.authUsername,
+        authPassword: response.data.authPassword,
       };
     })
     .catch((error) => {
