@@ -36,7 +36,7 @@ const scanAndUpdate = async (projectList: ProjectList) => {
         packageJsonUrl,
         packageLockUrl,
         decrypt(authUsername), // BITBUCKET_USERNAME,
-        decrypt(authPassword), // BITBUCKET_PASSWORD
+        decrypt(authPassword) // BITBUCKET_PASSWORD
       ),
       `scanNpmProject (${projectName})`
     );
