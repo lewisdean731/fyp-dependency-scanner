@@ -1,7 +1,16 @@
 import apiHelper from "./utils/api/api_helper";
 import pullMessages from "./utils/pubsub/pubsub_helper";
 
-const predefinedProjectIds: string[] = ["RFQOZOWqwSRo5ZBHNiKC"]; //portal
+const predefinedProjectIds: string[] = [
+  "msjiD8S1WmT3McMDmyis",
+  "RFQOZOWqwSRo5ZBHNiKC",
+  "9HluxswtxkRy0KXL3F4R",
+  "E8c6u3D4RwvWxrXxh8HX",
+  "KHQ9LkzFo1miE41bW5aL",
+  "SF3DBO8Y9gsMCTycUYiq",
+  "Sws5VU2pTDc1kvMDjGOS",
+  "iPvX2rynoqcxuxHfd2z4",
+];
 
 export const buildProjectsList = async (): Promise<ProjectList> => {
   let npmProjectsBuilder: NpmProject[] = [];
