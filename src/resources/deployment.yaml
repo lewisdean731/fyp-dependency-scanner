@@ -17,7 +17,7 @@ spec:
           secretName: pubsub-serviceaccount-key
       containers:
       - name: dependency-scanner
-        image: eu.gcr.io/bu-fyp-s5008913/dependency-scanner@sha256:f7d92617946009bd9461a38841343a393e2161cb45f8bc1571d95e8cee4d78f1
+        image: eu.gcr.io/bu-fyp-s5008913/dependency-scanner@sha256:e93a2e809d738970ecc540d253409604758d8d90165f3d35d66fad92ac88d4b7
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
