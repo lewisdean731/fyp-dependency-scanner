@@ -73,9 +73,8 @@ export default async (
     authPassword
   );
 
-  let dependencies: RawDependencies = npmPackageHelper.getDependencies(
-    packageDotJson
-  );
+  let dependencies: RawDependencies =
+    npmPackageHelper.getDependencies(packageDotJson);
 
   let collatedDependencies = await collateDependencies(
     dependencies,
