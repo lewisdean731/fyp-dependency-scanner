@@ -95,7 +95,7 @@ export const createNotification = async (
       return response;
     })
     .catch((error) => {
-      console.log(JSON.stringify(error))
+      console.log(JSON.stringify(error));
       throw error;
     });
 };

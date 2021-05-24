@@ -57,25 +57,24 @@ const collateDependencies = async (
 export default async (
   url: string,
   urlPackageLock: string,
-  BITBUCKET_USERNAME: string,
-  BITBUCKET_PASSWORD: string
+  authUsername: string,
+  authPassword: string
 ): Promise<ScannedDependency[]> => {
   // Get needed files from repository
   const packageDotJson: PackageJson = await npmPackageHelper.importFile(
     url,
-    BITBUCKET_USERNAME,
-    BITBUCKET_PASSWORD
+    authUsername,
+    authPassword
   );
 
   const packageLock: PackageLockJson = await npmPackageHelper.importFile(
     urlPackageLock,
-    BITBUCKET_USERNAME,
-    BITBUCKET_PASSWORD
+    authUsername,
+    authPassword
   );
 
-  let dependencies: RawDependencies = npmPackageHelper.getDependencies(
-    packageDotJson
-  );
+  let dependencies: RawDependencies =
+    npmPackageHelper.getDependencies(packageDotJson);
 
   let collatedDependencies = await collateDependencies(
     dependencies,
