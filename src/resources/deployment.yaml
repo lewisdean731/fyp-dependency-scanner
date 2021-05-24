@@ -32,16 +32,6 @@ spec:
             configMapKeyRef:
               key: NOTIFICATIONS_ENDPOINT
               name: dependency-scanner-config-1igv
-        - name: BITBUCKET_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              key: BITBUCKET_USERNAME
-              name: dependency-scanner-config-1igv
-        - name: BITBUCKET_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              key: BITBUCKET_PASSWORD
-              name: dependency-scanner-config-1igv
         - name: API_KEY
           valueFrom:
             configMapKeyRef:

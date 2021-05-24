@@ -16,11 +16,6 @@ npm run compile
 ### Local machine
 
 ```bash
-read -s bitbucket_password
-read bitbucket_username
-
-BITBUCKET_USERNAME="$bitbucket_username" \
-BITBUCKET_PASSWORD="$bitbucket_password" \
 PROJECTS_ENDPOINT="http://localhost:8080/api/project" \
 NOTIFICATIONS_ENDPOINT="http://localhost:8080/api/notification" \
 API_KEY="dependency-scanner.56a1dcc9-ffd5-430f-a6ab-25c8adf6ab0d" \

@@ -1,38 +1,16 @@
 import Axios from "axios";
 
-// Not sure why this implementation doesn't return the data in time yet the
-// Below implementation does
-/* const importFile = async (
-  url: string,
-  BITBUCKET_USERNAME: string,
-  BITBUCKET_PASSWORD: string
-): Promise<any> => {
-  console.log("importing file: " + url);
-  await Axios.get(url, {
-    auth: {
-      username: BITBUCKET_USERNAME,
-      password: BITBUCKET_PASSWORD,
-    },
-  })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      throw new Error(`Error: ${error}`);
-    });
-}; */
-
 const importFile = async (
   url: string,
-  BITBUCKET_USERNAME: string,
-  BITBUCKET_PASSWORD: string
+  authUsername: string,
+  authPassword: string
 ): Promise<any> => {
   console.log("importing file: " + url);
   try {
     const response = await Axios.get(url, {
       auth: {
-        username: BITBUCKET_USERNAME,
-        password: BITBUCKET_PASSWORD,
+        username: authUsername,
+        password: authPassword,
       },
     });
     return response.data;
